@@ -19,7 +19,7 @@ set selectedDevice=%device1%
 set /p selectedDevice=<%~nx0^:SD
 if %selectedDevice%==%device1% (set selectedDevice=%device2%) else (set selectedDevice=%device1%)
 @echo %selectedDevice% > %~nx0:SD
-start "" %systemroot%\System32\WindowsPowerShell\v1.0\powershell.exe Set-audiodevice -id '%selectedDevice%'
+powershell set-audiodevice -id '%selectedDevice%'
 exit 
 
 :noDevices
