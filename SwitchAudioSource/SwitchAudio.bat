@@ -1,21 +1,24 @@
-:: 000 :: <- число для редактирования ::
+:: 000 :: <- измените это число для сброса настроек
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Программа-скрипт для быстрого переключения устройства вывода звука по умолчанию
 :: Больше информации на https://github.com/EternalRival/SwitchAudio
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: Крайне не рекомендуется изменять код ниже этой строки!
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 @echo off
 title %~n0
 :main
-set /p device1=<%~f0^:D1
-set /p device2=<%~f0^:D2
+set /p device1=<%~nx0^:D1
+set /p device2=<%~nx0^:D2
 
 if not defined device1 goto :noDevices
 if not defined device2 goto :noDevices
 
 :switchDevices
 set selectedDevice=%device1%
-set /p selectedDevice=<%~f0^:SD
+set /p selectedDevice=<%~nx0^:SD
 if %selectedDevice%==%device1% (set selectedDevice=%device2%) else (set selectedDevice=%device1%)
-@echo %selectedDevice% > %~f0:SD
+@echo %selectedDevice% > %~nx0:SD
 start "" %systemroot%\System32\WindowsPowerShell\v1.0\powershell.exe Set-audiodevice -id '%selectedDevice%'
 exit 
 
@@ -24,20 +27,20 @@ cls
 echo.
 echo -----------------------------------------------------------------
 echo   Не указаны аудиоустройства! Готовим список ваших устройств... 
-powershell get-audiodevice -list > %~f0:deviceList
+powershell get-audiodevice -list > %~nx0:deviceList
 echo -----------------------------------------------------------------
-findstr /b "Name ID"  <%~f0:deviceList
+findstr /b "Name ID"  <%~nx0:deviceList
 echo -----------------------------------------------------------------
 
 :define1
 if not defined device1 set /p device1=Введите ID устройства 1: 
 if not defined device1 goto :noDevices
-@echo %device1%>%~f0:D1
+@echo %device1%>%~nx0:D1
 
 :define2
 if not defined device2 set /p device2=Введите ID устройства 2: 
 if not defined device2 goto :noDevices
-@echo %device2%>%~f0:D2
+@echo %device2%>%~nx0:D2
 
 :defineSuccess
 cls
